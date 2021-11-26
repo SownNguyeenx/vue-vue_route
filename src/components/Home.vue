@@ -3,6 +3,11 @@
 <script>
 export default {
   name: "Home",
+  methods: {
+    logout() {
+      localStorage.removeItem("uesr");
+    },
+  },
 };
 </script>
 
