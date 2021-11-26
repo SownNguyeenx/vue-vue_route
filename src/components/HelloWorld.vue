@@ -46,7 +46,22 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  name: "HelloWorld",
+
+  methods: {
+    login() {
+      return axios
+        .post("http://127.0.0.1:5000/login")
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
+        })
+        .catch((error) => console.log(error));
+    },
+  },
+
   data() {
     return {
       msg: "Welcome VueJS",
