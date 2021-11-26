@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import About from "./components/About.vue";
-import Home from "./components/HelloWorld.vue";
+import Login from "./components/Login.vue";
+import Home from "./components/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -9,9 +9,8 @@ export const router = new VueRouter({
   mode: "history",
   routes: [
     { path: "/", component: Home },
-    { path: "/login", component: About },
+    { path: "/login", component: Login },
 
-    // { path: '/login', component: Login },
     { path: "*", redirect: "/" },
   ],
 });
