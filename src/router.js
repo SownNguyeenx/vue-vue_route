@@ -18,7 +18,7 @@ export const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const publicPage = ["/login", "/register"];
   const authRequired = !publicPage.includes(to.path);
-  const loggedIn = localStorage.getItem("user");
+  const loggedIn = localStorage.getItem("token");
 
   if (authRequired && !loggedIn) {
     return next("/login");

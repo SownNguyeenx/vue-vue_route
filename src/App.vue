@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png" />
-    <br />
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> -->
+    <div v-if="alert.message" :class="`alert ${alert.type}`">
+      {{ alert.message }}
+    </div>
     <router-view />
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "App",
-  components: {},
+
+  computed: {
+    ...mapState({
+      alert: (state) => state.alert,
+    }),
+  },
+
+  methods: {
+    ...mapActions({
+      clearAlert: "alert/clear",
+    }),
+  },
+
+  // watch: {
+  //   $route() {
+  //     this.clearAlert();
+  //   },
+  // },
 };
 </script>
 

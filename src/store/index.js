@@ -1,13 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import { account } from "./store/account";
-// import { alert } from "./store/alert";
+import { account } from "./account";
+import { alert } from "./alert";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   modules: {
-    // account,
-    // alert,
+    account,
+    alert,
   },
 });

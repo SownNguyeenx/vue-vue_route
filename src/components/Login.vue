@@ -8,18 +8,26 @@
           <label for="chk" aria-hidden="true">Sign up</label>
           <input
             type="text"
+            v-model="user.username"
             name="username"
             placeholder="Username"
             required=""
           />
-          <input type="text" name="name" placeholder="Name" required="" />
+          <input
+            type="text"
+            v-model="user.name"
+            name="name"
+            placeholder="Name"
+            required=""
+          />
           <input
             type="password"
+            v-model="user.password"
             name="password"
             placeholder="Password"
             required=""
           />
-          <button>Sign up</button>
+          <button @click="doRegister">Sign up</button>
         </form>
       </div>
 
@@ -28,17 +36,19 @@
           <label for="chk" aria-hidden="true">Login</label>
           <input
             type="text"
+            v-model="user.username"
             name="username"
             placeholder="Username"
             required=""
           />
           <input
             type="password"
+            v-model="user.password"
             name="password"
             placeholder="Password"
             required=""
           />
-          <button>Login</button>
+          <button @click="doLogin">Login</button>
         </form>
       </div>
     </div>
@@ -47,37 +57,60 @@
 
 <script>
 import axios from "axios";
+import { router } from "../router";
 
 export default {
   name: "Login",
 
-  methods: {
-    login() {
-      return axios
-        .post("http://127.0.0.1:5000/login")
-        .then((res) => {
-          localStorage.setItem("token", res.data.token);
-        })
-        .catch((error) => console.log(error));
-    },
-    signup() {
-      return axios
-        .post("http://127.0.0.1:5000/signup")
-        .then((res) => res.data)
-        .catch((error) => console.log(error));
-    },
-  },
-
   data() {
     return {
-      msg: "Welcome VueJS",
+      user: {
+        username: "",
+        password: "",
+        name: "",
+      },
     };
+  },
+
+  methods: {
+    doLogin(event) {
+      event.preventDefault();
+      // userService.login(this.user);
+      return (
+        axios
+          .post("http://127.0.0.1:5000/login", JSON.stringify(this.user), {
+            headers: { "Content-Type": "application/json" },
+          })
+          // .then(handleResponse)
+          .then((response) => {
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            router.push("/");
+            console.log(response);
+          })
+          .catch((error) => console.log(error))
+      );
+    },
+
+    doRegister(event) {
+      event.preventDefault();
+      return (
+        axios
+          .post("http://127.0.0.1:5000/signup", JSON.stringify(this.user), {
+            headers: { "Content-Type": "application/json" },
+          })
+          // .then(handleResponse)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => console.log(error))
+      );
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
+<style>
 body {
   margin: 0;
   padding: 0;
