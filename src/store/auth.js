@@ -1,5 +1,6 @@
 // state = {
-//   token: localStorage.getItem("token") || null,
+//     token: localStorage.getItem("token") || null,
+//     name = jwt_decode(token).name||null
 // };
 
 // mutations = {
