@@ -1,7 +1,7 @@
 <template>
   <div class="container" style="width: 1000px; margin: auto">
     <div class="header" style="display: flex">
-      <div class="name">{{ name }}</div>
+      <div class="name">Name: {{ name }}</div>
       <div class="search" style="margin-left: 100px">
         <input class="search-box" type="text" placeholder="Search here..." />
       </div>
@@ -9,21 +9,35 @@
     </div>
 
     <div class="post">
-      <div class="task-bar">task bar</div>
+      <div class="task-bar">Status</div>
+      <div>
+        <input
+          class="title-box"
+          type="text"
+          v-model="post.title"
+          placeholder="Caption"
+          required
+        />
+      </div>
       <div>
         <textarea
           class="post-box"
           name="post"
-          id=""
           placeholder="What's in your mind"
+          v-model="post.content"
         ></textarea>
       </div>
       <div>
-        <button class="submit-post">Post</button>
+        <button class="submit-post" @click="submitPost">Post</button>
       </div>
     </div>
 
-    <div class="post" v-for="post in posts" :key="post.id">
+    <div
+      class="post"
+      style="margin-top: 50px"
+      v-for="post in posts"
+      :key="post.id"
+    >
       <div style="display: flex">
         <img
           src="../assets/mini1.png"
@@ -37,12 +51,6 @@
         </div>
       </div>
       <div>content:{{ post.content }}</div>
-      <ul>
-        <li v-for="post in posts" :key="post.id">
-          {{ post.author }} : {{ post.title }}<br />
-          {{ post.content }}
-        </li>
-      </ul>
     </div>
   </div>
 </template>
@@ -62,6 +70,11 @@ export default {
         id: "",
         title: "",
         content: "",
+        author: "",
+      },
+      post: {
+        title: "",
+        contemt: "",
         author: "",
       },
     };
@@ -103,6 +116,8 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+
+    submitPost() {},
   },
 };
 </script>
@@ -139,6 +154,7 @@ export default {
   -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 .task-bar {
+  font-size: 30px;
   margin: 10px;
   padding: auto;
 }
@@ -164,5 +180,13 @@ export default {
   margin-left: 150px;
   margin-top: 20px;
   font-size: 25px;
+}
+.title-box {
+  width: 250px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 5px;
+  outline: none;
+  margin: 10px;
 }
 </style>
