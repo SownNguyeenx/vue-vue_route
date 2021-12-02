@@ -1,7 +1,42 @@
 <template>
-  <div>
-    <div>Name: {{ name }}</div>
-    <div class="post_show">
+  <div class="container" style="width: 1000px; margin: auto">
+    <div class="header" style="display: flex">
+      <div class="name">{{ name }}</div>
+      <div class="search" style="margin-left: 100px">
+        <input class="search-box" type="text" placeholder="Search here..." />
+      </div>
+      <div class="nav-logout" @click="doLogout">Logout</div>
+    </div>
+
+    <div class="post">
+      <div class="task-bar">task bar</div>
+      <div>
+        <textarea
+          class="post-box"
+          name="post"
+          id=""
+          placeholder="What's in your mind"
+        ></textarea>
+      </div>
+      <div>
+        <button class="submit-post">Post</button>
+      </div>
+    </div>
+
+    <div class="post" v-for="post in posts" :key="post.id">
+      <div style="display: flex">
+        <img
+          src="../assets/mini1.png"
+          alt="image is here"
+          id="profpic"
+          style="margin: 10px"
+        />
+        <div>
+          <div style="font-size: 25px">{{ post.author }}</div>
+          <div style="font-size: 50px">title: {{ post.title }}</div>
+        </div>
+      </div>
+      <div>content:{{ post.content }}</div>
       <ul>
         <li v-for="post in posts" :key="post.id">
           {{ post.author }} : {{ post.title }}<br />
@@ -9,8 +44,6 @@
         </li>
       </ul>
     </div>
-    <button @click="getAllPost">click</button>
-    <button @click="doLogout">Logout</button>
   </div>
 </template>
 
@@ -74,4 +107,62 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.header {
+  position: fixed;
+  width: 1000px;
+  height: 70px;
+  background: #147064;
+  top: 0;
+  color: white;
+}
+.name {
+  margin-left: 10px;
+  font-size: 50px;
+  width: 300px;
+}
+.search {
+  margin-top: 15px;
+}
+.search-box {
+  width: 300px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 5px;
+  outline: none;
+}
+.post {
+  display: block;
+  width: 500px;
+  margin: auto;
+  margin-top: 100px;
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+.task-bar {
+  margin: 10px;
+  padding: auto;
+}
+.post-box {
+  width: 480px;
+  height: 100px;
+  border: white;
+  background: #e9f0f2;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.submit-post {
+  background: #147064;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 20px;
+  width: 60px;
+  margin-left: 430px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.nav-logout {
+  margin-left: 150px;
+  margin-top: 20px;
+  font-size: 25px;
+}
+</style>

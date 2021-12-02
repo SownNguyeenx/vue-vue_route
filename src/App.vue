@@ -1,29 +1,26 @@
 <template>
   <div id="app">
-    <div v-if="alert.message" :class="`alert ${alert.type}`">
-      {{ alert.message }}
-    </div>
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+// import { mapState, mapActions } from "vuex";
 
 export default {
   name: "App",
 
-  computed: {
-    ...mapState({
-      alert: (state) => state.alert,
-    }),
-  },
+  // computed: {
+  //   ...mapState({
+  //     alert: (state) => state.alert,
+  //   }),
+  // },
 
-  methods: {
-    ...mapActions({
-      clearAlert: "alert/clear",
-    }),
-  },
+  // methods: {
+  //   ...mapActions({
+  //     clearAlert: "alert/clear",
+  //   }),
+  // },
 
   // watch: {
   //   $route() {
@@ -33,13 +30,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Jost", sans-serif;
+  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 </style>

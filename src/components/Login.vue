@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="main">
       <input type="checkbox" id="chk" aria-hidden="true" />
 
@@ -110,8 +110,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-body {
+<style scoped>
+.container {
   margin: 0;
   padding: 0;
   display: flex;
