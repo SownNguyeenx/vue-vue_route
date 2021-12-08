@@ -11,6 +11,10 @@ export default {
 </script>
 
 <style>
+.container {
+  width: 1000px;
+  margin: auto;
+}
 .header {
   position: fixed;
   width: 1000px;

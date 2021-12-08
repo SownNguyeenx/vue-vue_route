@@ -1,64 +1,24 @@
 <template>
-  <div class="container" style="width: 1000px; margin: auto">
-    <div class="header" style="display: flex">
-      <div class="name">{{ name }}</div>
-      <div class="search" style="margin-left: 100px">
-        <input class="search-box" type="text" placeholder="Search here..." />
-      </div>
-      <div class="nav">
-        <router-link to="/">Home</router-link>
-      </div>
-      <div class="nav">
-        <router-link to="/profile">Profile</router-link>
-      </div>
-      <div class="nav" style="cursor: pointer" @click="doLogout">Logout</div>
-    </div>
-
-    <div class="post" id="add-post">
-      <div class="task-bar">Status</div>
-      <div>
-        <input
-          class="title-box"
-          type="text"
-          v-model="post.title"
-          placeholder="Caption"
-          required
+  <div>
+    <div
+      class="post"
+      style="margin-top: 25px"
+      v-for="post in posts"
+      :key="post.id"
+    >
+      <div style="display: flex">
+        <img
+          src="../assets/mini1.png"
+          alt="image is here"
+          id="profpic"
+          style="margin: 10px"
         />
-      </div>
-      <div>
-        <textarea
-          class="post-box"
-          name="post"
-          placeholder="What's in your mind"
-          v-model="post.content"
-        ></textarea>
-      </div>
-      <div>
-        <button class="submit-post" @click="submitPost">Post</button>
-      </div>
-    </div>
-    <router-view />
-    <div>
-      <div
-        class="post"
-        style="margin-top: 25px"
-        v-for="post in posts"
-        :key="post.id"
-      >
-        <div style="display: flex">
-          <img
-            src="../assets/mini1.png"
-            alt="image is here"
-            id="profpic"
-            style="margin: 10px"
-          />
-          <div>
-            <div style="font-size: 25px">{{ post.author }}</div>
-            <div style="font-size: 50px">title: {{ post.title }}</div>
-          </div>
+        <div>
+          <div style="font-size: 25px">{{ post.author }}</div>
+          <div style="font-size: 50px">title: {{ post.title }}</div>
         </div>
-        <div>content:{{ post.content }}</div>
       </div>
+      <div>content:{{ post.content }}</div>
     </div>
   </div>
 </template>
@@ -66,7 +26,7 @@
 <script>
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { mapActions } from "vuex";
+import { authHeader } from "../helper/helper";
 
 export default {
   name: "Home",
@@ -83,20 +43,10 @@ export default {
           user_id: "",
         },
       ],
-      post: {
-        title: "",
-        content: "",
-        author: "",
-        user_id: "",
-      },
-      refresh_token: {
-        refresh_token: "",
-      },
     };
   },
 
   beforeMount() {
-    // this.check_refresh_token();
     this.getAllPost();
   },
 
@@ -105,53 +55,13 @@ export default {
     this.name = jwt_decode(token).name;
     this.post.author = this.name;
     this.post.user_id = jwt_decode(token).id;
-    this.refresh_token.refresh_token = JSON.parse(
-      localStorage.getItem("refresh_token")
-    );
   },
 
   methods: {
-    ...mapActions(["logout", "refresh_access_token", "authHeader"]),
-    doLogout() {
-      this.logout(this.refresh_token);
-    },
-
-    authHeader() {
-      let token = JSON.parse(localStorage.getItem("token"));
-      if (token) {
-        return { Authorization: "Bearer " + token };
-      } else {
-        return {};
-      }
-    },
-
-    submitPost() {
-      return axios
-        .post("http://127.0.0.1:5000/add-post", this.post, {
-          headers: this.authHeader(),
-        })
-        .then(() => {
-          location.reload();
-        })
-        .catch((error) => console.log(error));
-    },
-
-    // check_refresh_token() {
-    //   let refresh_token = JSON.parse(localStorage.getItem("refresh_token"));
-    //   let token = JSON.parse(localStorage.getItem("token"));
-    //   if (refresh_token) {
-    //     if (!token) {
-    //       this.refresh_access_token(this.refresh_token);
-    //     }
-    //   } else {
-    //     this.logout();
-    //   }
-    // },
-
     getAllPost() {
       return axios
         .get("http://127.0.0.1:5000/get-all-post", {
-          headers: this.authHeader(),
+          headers: authHeader(),
         })
         .then((response) => {
           this.posts = response.data.post;

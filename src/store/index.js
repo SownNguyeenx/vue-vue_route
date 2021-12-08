@@ -90,15 +90,6 @@ export const store = new Vuex.Store({
         .catch((error) => console.log(error));
     },
 
-    authHeader() {
-      let token = JSON.parse(localStorage.getItem("token"));
-      if (token) {
-        return { Authorization: "Bearer " + token };
-      } else {
-        return {};
-      }
-    },
-
     handleResponse(response) {
       return response.text().then((text) => {
         const data = text && JSON.parse(text);

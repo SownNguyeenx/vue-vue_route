@@ -28,13 +28,14 @@
 
 <script>
 import axios from "axios";
-import { mapActions } from "vuex";
+import { authHeader } from "../helper/helper";
+import jwt_decode from "jwt-decode";
+
 export default {
   name: "Profile",
 
   data() {
     return {
-      userId: "",
       posts: [
         {
           id: "",
@@ -43,16 +44,30 @@ export default {
           author: "",
         },
       ],
+      user_id: "",
     };
   },
 
+  beforeMount() {
+    this.getPostByUserId();
+  },
+
+  mounted() {
+    let token = localStorage.getItem("token");
+    this.user_id = jwt_decode(token).id;
+    console.log(this.user_id);
+  },
+
   methods: {
-    ...mapActions(["authHeader"]),
     getPostByUserId() {
       return axios
-        .get("http://127.0.0.1:5000/get-post-userId", this.userId, {
-          headers: this.authHeader(),
-        })
+        .get(
+          "http://127.0.0.1:5000/get-post-userId",
+          { id: this.user_id },
+          {
+            headers: authHeader(),
+          }
+        )
         .then((response) => {
           console.log(response);
         })

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="width: 1000px; margin: auto">
+  <div class="container">
     <div class="header" style="display: flex">
       <div class="name">{{ name }}</div>
       <div class="search" style="margin-left: 100px">
@@ -37,7 +37,6 @@
         <button class="submit-post" @click="submitPost">Post</button>
       </div>
     </div>
-
     <router-view />
   </div>
 </template>
@@ -46,6 +45,7 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { mapActions } from "vuex";
+import { authHeader } from "../helper/helper";
 
 export default {
   name: "Home",
@@ -78,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["logout", "refresh_access_token", "authHeader"]),
+    ...mapActions(["logout", "refresh_access_token"]),
     doLogout() {
       this.logout(this.refresh_token);
     },
@@ -86,7 +86,7 @@ export default {
     submitPost() {
       return axios
         .post("http://127.0.0.1:5000/add-post", this.post, {
-          headers: this.authHeader(),
+          headers: authHeader(),
         })
         .then(() => {
           location.reload();

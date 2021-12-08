@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="main">
+  <div class="">
+    <div class="main-login">
       <input type="checkbox" id="chk" aria-hidden="true" />
 
       <div class="signup">
@@ -56,9 +56,7 @@
 </template>
 
 <script>
-// import axios from "axios";
 import { mapActions } from "vuex";
-// import { router } from "../router";
 
 export default {
   name: "Login",
@@ -82,22 +80,6 @@ export default {
 
     doLogin(event) {
       event.preventDefault();
-      // return (
-      //   axios
-      //     .post("http://127.0.0.1:5000/login", JSON.stringify(this.user), {
-      //       headers: { "Content-Type": "application/json" },
-      //     })
-      //     // .then(handleResponse)
-      //     .then((response) => {
-      //       localStorage.setItem("token", JSON.stringify(response.data.token));
-      //       localStorage.setItem(
-      //         "refresh_token",
-      //         JSON.stringify(response.data.refresh_token)
-      //       );
-      //       router.push("/");
-      //     })
-      //     .catch((error) => console.log(error))
-      // );
       this.login(this.user);
     },
   },
@@ -106,7 +88,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main {
+.main-login {
   width: 350px;
   height: 500px;
   background: red;
