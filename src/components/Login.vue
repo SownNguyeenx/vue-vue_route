@@ -56,8 +56,9 @@
 </template>
 
 <script>
-import axios from "axios";
-import { router } from "../router";
+// import axios from "axios";
+import { mapActions } from "vuex";
+// import { router } from "../router";
 
 export default {
   name: "Login",
@@ -73,37 +74,31 @@ export default {
   },
 
   methods: {
-    doLogin(event) {
-      event.preventDefault();
-      // userService.login(this.user);
-      return (
-        axios
-          .post("http://127.0.0.1:5000/login", JSON.stringify(this.user), {
-            headers: { "Content-Type": "application/json" },
-          })
-          // .then(handleResponse)
-          .then((response) => {
-            localStorage.setItem("token", JSON.stringify(response.data.token));
-            router.push("/");
-            console.log(response);
-          })
-          .catch((error) => console.log(error))
-      );
-    },
-
+    ...mapActions(["register", "login"]),
     doRegister(event) {
       event.preventDefault();
-      return (
-        axios
-          .post("http://127.0.0.1:5000/signup", JSON.stringify(this.user), {
-            headers: { "Content-Type": "application/json" },
-          })
-          // .then(handleResponse)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => console.log(error))
-      );
+      this.register(this.user);
+    },
+
+    doLogin(event) {
+      event.preventDefault();
+      // return (
+      //   axios
+      //     .post("http://127.0.0.1:5000/login", JSON.stringify(this.user), {
+      //       headers: { "Content-Type": "application/json" },
+      //     })
+      //     // .then(handleResponse)
+      //     .then((response) => {
+      //       localStorage.setItem("token", JSON.stringify(response.data.token));
+      //       localStorage.setItem(
+      //         "refresh_token",
+      //         JSON.stringify(response.data.refresh_token)
+      //       );
+      //       router.push("/");
+      //     })
+      //     .catch((error) => console.log(error))
+      // );
+      this.login(this.user);
     },
   },
 };
@@ -111,16 +106,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  font-family: "Jost", sans-serif;
-  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-}
 .main {
   width: 350px;
   height: 500px;
@@ -138,6 +123,10 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+.signup label {
+  color: #573b8a;
 }
 label {
   color: #fff;

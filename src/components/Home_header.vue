@@ -11,7 +11,7 @@
       <div class="nav">
         <router-link to="/profile">Profile</router-link>
       </div>
-      <div class="nav" style="cursor: pointer" @click="doLogout">Logout</div>
+      <div class="nav" @click="doLogout">Logout</div>
     </div>
 
     <div class="post" id="add-post">
@@ -37,29 +37,8 @@
         <button class="submit-post" @click="submitPost">Post</button>
       </div>
     </div>
+
     <router-view />
-    <div>
-      <div
-        class="post"
-        style="margin-top: 25px"
-        v-for="post in posts"
-        :key="post.id"
-      >
-        <div style="display: flex">
-          <img
-            src="../assets/mini1.png"
-            alt="image is here"
-            id="profpic"
-            style="margin: 10px"
-          />
-          <div>
-            <div style="font-size: 25px">{{ post.author }}</div>
-            <div style="font-size: 50px">title: {{ post.title }}</div>
-          </div>
-        </div>
-        <div>content:{{ post.content }}</div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -74,18 +53,9 @@ export default {
   data() {
     return {
       name: "",
-      posts: [
-        {
-          id: "",
-          title: "",
-          content: "",
-          author: "",
-          user_id: "",
-        },
-      ],
       post: {
         title: "",
-        content: "",
+        contemt: "",
         author: "",
         user_id: "",
       },
@@ -95,10 +65,7 @@ export default {
     };
   },
 
-  beforeMount() {
-    // this.check_refresh_token();
-    this.getAllPost();
-  },
+  beforeMount() {},
 
   mounted() {
     let token = localStorage.getItem("token");
@@ -114,15 +81,6 @@ export default {
     ...mapActions(["logout", "refresh_access_token", "authHeader"]),
     doLogout() {
       this.logout(this.refresh_token);
-    },
-
-    authHeader() {
-      let token = JSON.parse(localStorage.getItem("token"));
-      if (token) {
-        return { Authorization: "Bearer " + token };
-      } else {
-        return {};
-      }
     },
 
     submitPost() {
@@ -147,17 +105,6 @@ export default {
     //     this.logout();
     //   }
     // },
-
-    getAllPost() {
-      return axios
-        .get("http://127.0.0.1:5000/get-all-post", {
-          headers: this.authHeader(),
-        })
-        .then((response) => {
-          this.posts = response.data.post;
-        })
-        .catch((error) => console.log(error));
-    },
   },
 };
 </script>
