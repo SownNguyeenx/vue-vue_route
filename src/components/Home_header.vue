@@ -11,7 +11,7 @@
       <div class="nav">
         <router-link to="/profile">Profile</router-link>
       </div>
-      <div class="nav" @click="doLogout">Logout</div>
+      <div class="nav" style="cursor: pointer" @click="doLogout">Logout</div>
     </div>
 
     <div class="post" id="add-post">

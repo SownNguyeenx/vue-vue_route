@@ -17,11 +17,13 @@
           <div style="font-size: 25px">{{ post.author }}</div>
           <div style="font-size: 50px">title: {{ post.title }}</div>
         </div>
-        <span>Update</span>
-        <div>||</div>
-        <span>Delete</span>
       </div>
       <div>content:{{ post.content }}</div>
+      <div style="display: flex; float: right">
+        <div class="tool-profile" @click="updatePost">Update</div>
+        <div class="tool-profile">||</div>
+        <div class="tool-profile" @click="delPost">Delete</div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +46,9 @@ export default {
           author: "",
         },
       ],
-      user_id: "",
+      user: {
+        user_id: "",
+      },
     };
   },
 
@@ -54,8 +58,8 @@ export default {
 
   mounted() {
     let token = localStorage.getItem("token");
-    this.user_id = jwt_decode(token).id;
-    console.log(this.user_id);
+    this.user.user_id = jwt_decode(token).id;
+    console.log(this.user);
   },
 
   methods: {
@@ -63,19 +67,44 @@ export default {
       return axios
         .get(
           "http://127.0.0.1:5000/get-post-userId",
-          { id: this.user_id },
+          JSON.stringify(this.user),
           {
             headers: authHeader(),
           }
         )
         .then((response) => {
+          this.posts = response.data.post;
           console.log(response);
         })
+        .catch((error) => console.log(error));
+    },
+
+    delPost() {
+      return axios
+        .delete("http://127.0.0.1:5000/del_post", {
+          headers: authHeader(),
+        })
+        .then()
+        .catch((error) => console.log(error));
+    },
+
+    updatePost() {
+      return axios
+        .put("http://127.0.0.1:5000/update_post", {
+          headers: authHeader(),
+        })
+        .then()
         .catch((error) => console.log(error));
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+.tool-profile {
+  margin-left: 5px;
+  /* margin-top: 10px; */
+  font-size: 25px;
+  cursor: pointer;
+}
 </style>

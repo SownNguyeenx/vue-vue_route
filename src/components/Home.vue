@@ -53,8 +53,8 @@ export default {
   mounted() {
     let token = localStorage.getItem("token");
     this.name = jwt_decode(token).name;
-    this.post.author = this.name;
-    this.post.user_id = jwt_decode(token).id;
+    this.posts.author = this.name;
+    this.posts.user_id = jwt_decode(token).id;
   },
 
   methods: {
