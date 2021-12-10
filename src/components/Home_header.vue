@@ -65,7 +65,9 @@ export default {
     };
   },
 
-  beforeMount() {},
+  beforeMount() {
+    this.check_refresh_token();
+  },
 
   mounted() {
     let token = localStorage.getItem("token");
@@ -94,17 +96,17 @@ export default {
         .catch((error) => console.log(error));
     },
 
-    // check_refresh_token() {
-    //   let refresh_token = JSON.parse(localStorage.getItem("refresh_token"));
-    //   let token = JSON.parse(localStorage.getItem("token"));
-    //   if (refresh_token) {
-    //     if (!token) {
-    //       this.refresh_access_token(this.refresh_token);
-    //     }
-    //   } else {
-    //     this.logout();
-    //   }
-    // },
+    check_refresh_token() {
+      let refresh_token = JSON.parse(localStorage.getItem("refresh_token"));
+      let token = JSON.parse(localStorage.getItem("token"));
+      if (refresh_token) {
+        if (!token) {
+          this.refresh_access_token(this.refresh_token);
+        }
+      } else {
+        this.logout();
+      }
+    },
   },
 };
 </script>

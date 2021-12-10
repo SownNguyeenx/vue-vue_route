@@ -13,7 +13,8 @@ export default {
 <style>
 .container {
   width: 1000px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .header {
   position: fixed;
@@ -41,7 +42,9 @@ export default {
 .post {
   display: block;
   width: 500px;
-  margin: auto;
+  /* margin: auto; */
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
   -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }

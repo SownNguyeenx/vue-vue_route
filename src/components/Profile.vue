@@ -19,10 +19,16 @@
         </div>
       </div>
       <div>content:{{ post.content }}</div>
-      <div style="display: flex; float: right">
-        <div class="tool-profile" @click="updatePost">Update</div>
+      <hr />
+      <div style="display: flex; margin-left: 300px">
+        <div
+          class="tool-profile"
+          @click="updatePost(post.id, post.title, post.content)"
+        >
+          Update
+        </div>
         <div class="tool-profile">||</div>
-        <div class="tool-profile" @click="delPost">Delete</div>
+        <div class="tool-profile" @click="delPost(post.id)">Delete</div>
       </div>
     </div>
   </div>
@@ -31,7 +37,6 @@
 <script>
 import axios from "axios";
 import { authHeader } from "../helper/helper";
-import jwt_decode from "jwt-decode";
 
 export default {
   name: "Profile",
@@ -44,55 +49,57 @@ export default {
           title: "",
           content: "",
           author: "",
+          user_id: "",
         },
       ],
-      user: {
-        user_id: "",
-      },
     };
   },
 
   beforeMount() {
+    this.posts.user_id = this.$parent.post.user_id;
     this.getPostByUserId();
   },
 
   mounted() {
-    let token = localStorage.getItem("token");
-    this.user.user_id = jwt_decode(token).id;
-    console.log(this.user);
+    this.posts.user_id = this.$parent.post.user_id;
+    console.log(this.posts);
   },
 
   methods: {
     getPostByUserId() {
       return axios
-        .get(
-          "http://127.0.0.1:5000/get-post-userId",
-          JSON.stringify(this.user),
+        .post("http://127.0.0.1:5000/get-post-userId", this.$parent.post, {
+          headers: authHeader(),
+        })
+        .then((response) => {
+          this.posts = response.data.post;
+          // console.log(response);
+        })
+        .catch((error) => console.log(error));
+    },
+
+    delPost(id) {
+      return axios
+        .post(
+          "http://127.0.0.1:5000/del-post",
+          { id },
           {
             headers: authHeader(),
           }
         )
-        .then((response) => {
-          this.posts = response.data.post;
-          console.log(response);
-        })
+        .then(location.reload())
         .catch((error) => console.log(error));
     },
 
-    delPost() {
+    updatePost(id, title, content) {
       return axios
-        .delete("http://127.0.0.1:5000/del_post", {
-          headers: authHeader(),
-        })
-        .then()
-        .catch((error) => console.log(error));
-    },
-
-    updatePost() {
-      return axios
-        .put("http://127.0.0.1:5000/update_post", {
-          headers: authHeader(),
-        })
+        .put(
+          "http://127.0.0.1:5000/update-post",
+          { id, title, content },
+          {
+            headers: authHeader(),
+          }
+        )
         .then()
         .catch((error) => console.log(error));
     },
@@ -102,8 +109,9 @@ export default {
 
 <style scoped>
 .tool-profile {
-  margin-left: 5px;
+  margin-left: 10px;
   /* margin-top: 10px; */
+  margin-bottom: 10px;
   font-size: 25px;
   cursor: pointer;
 }

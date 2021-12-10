@@ -19,6 +19,7 @@
         </div>
       </div>
       <div>content:{{ post.content }}</div>
+      <hr />
     </div>
   </div>
 </template>
@@ -40,9 +41,10 @@ export default {
           title: "",
           content: "",
           author: "",
-          user_id: "",
+          // user_id: "",
         },
       ],
+      loadMore: true,
     };
   },
 
@@ -54,7 +56,7 @@ export default {
     let token = localStorage.getItem("token");
     this.name = jwt_decode(token).name;
     this.posts.author = this.name;
-    this.posts.user_id = jwt_decode(token).id;
+    // this.posts.user_id = jwt_decode(token).id;
   },
 
   methods: {
@@ -64,6 +66,7 @@ export default {
           headers: authHeader(),
         })
         .then((response) => {
+          // console.log(response.data);
           this.posts = response.data.post;
         })
         .catch((error) => console.log(error));
