@@ -37,38 +37,33 @@
 <script>
 import axios from "axios";
 import { authHeader } from "../helper/helper";
+import jwt_decode from "jwt-decode";
 
 export default {
   name: "Profile",
 
   data() {
     return {
-      posts: [
-        {
-          id: "",
-          title: "",
-          content: "",
-          author: "",
-          user_id: "",
-        },
-      ],
+      posts: {
+        id: "",
+        title: "",
+        content: "",
+        author: "",
+        user_id: "",
+      },
     };
   },
 
   beforeMount() {
-    this.posts.user_id = this.$parent.post.user_id;
+    let token = localStorage.getItem("token");
+    this.posts.user_id = jwt_decode(token).id;
     this.getPostByUserId();
-  },
-
-  mounted() {
-    this.posts.user_id = this.$parent.post.user_id;
-    console.log(this.posts);
   },
 
   methods: {
     getPostByUserId() {
       return axios
-        .post("http://127.0.0.1:5000/get-post-userId", this.$parent.post, {
+        .post("http://127.0.0.1:5000/get-post-userId", this.posts, {
           headers: authHeader(),
         })
         .then((response) => {
@@ -87,7 +82,7 @@ export default {
             headers: authHeader(),
           }
         )
-        .then(location.reload())
+        .then(() => location.reload())
         .catch((error) => console.log(error));
     },
 
@@ -100,7 +95,7 @@ export default {
             headers: authHeader(),
           }
         )
-        .then()
+        .then(() => location.reload)
         .catch((error) => console.log(error));
     },
   },
