@@ -15,10 +15,20 @@
         />
         <div>
           <div style="font-size: 25px">{{ post.author }}</div>
-          <div style="font-size: 50px">title: {{ post.title }}</div>
+          <div style="font-size: 25px">
+            title:
+            <input
+              class="inp-post title"
+              type="text"
+              v-model="post.title"
+              placeholder="Caption"
+            />
+          </div>
         </div>
       </div>
-      <div>content:{{ post.content }}</div>
+
+      <textarea v-model="post.content" class="inp-post content"></textarea>
+
       <hr />
       <div style="display: flex; margin-left: 300px">
         <div
@@ -109,5 +119,16 @@ export default {
   margin-bottom: 10px;
   font-size: 25px;
   cursor: pointer;
+}
+.inp-post {
+  border: 0;
+}
+.title {
+  width: auto;
+  font-size: 20px;
+}
+.content {
+  width: 480px;
+  margin: 5px;
 }
 </style>

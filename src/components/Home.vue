@@ -15,7 +15,7 @@
         />
         <div>
           <div style="font-size: 25px">{{ post.author }}</div>
-          <div style="font-size: 50px">title: {{ post.title }}</div>
+          <div style="font-size: 25px">title: {{ post.title }}</div>
         </div>
       </div>
       <div>content:{{ post.content }}</div>

@@ -1,6 +1,6 @@
 FROM node:latest as build-stage
-WORKDIR /app
+WORKDIR /
 COPY package*.json ./
 RUN npm i
-COPY ./ .
-RUN npm run serve
+EXPOSE 8080
+CMD [ "npm", "run", "serve" ]
